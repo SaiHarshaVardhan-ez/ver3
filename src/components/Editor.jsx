@@ -1,6 +1,6 @@
 import React from "react";
-import { CiCirclePlus } from "react-icons/ci";
-import { CiCircleRemove } from "react-icons/ci";
+import { CiCirclePlus, CiCircleRemove } from "react-icons/ci";
+import DropZone from "./dropzone/DropZone";
 
 const Editor = (props) => {
   const removeBlock = (blockIdToRemove) => {
@@ -18,17 +18,20 @@ const Editor = (props) => {
   };
 
   const addInput = () => {
-    // write a logic here so that we can select a input and place it in the function caller div.
+    // write a logic here so that we can select an input and place it in the function caller div.
+  };
+
+  const handleDrop = () => {
+    console.log("dropped");
   };
 
   const renderBlocks = () => {
-    return props.content.map((blockId) => {
+    return props.content.map((blockId, index) => {
       switch (blockId) {
         case "full-width":
           return (
-            <>
+            <DropZone key={`full-width-${index}`} onDrop={handleDrop}>
               <div
-                key={blockId}
                 className="h-20 bg-gray-200 border border-gray-400 rounded flex items-center justify-center"
                 id={blockId}
                 onClick={addInput}
@@ -41,100 +44,112 @@ const Editor = (props) => {
                   <CiCircleRemove size={32} />
                 </button>
               </div>
-            </>
+            </DropZone>
           );
         case "half-width":
           return (
-            <>
-              <div className="flex space-x-4" key={blockId}>
-                <div
-                  onClick={addInput}
-                  className="w-1/2 h-20 bg-gray-200 border border-gray-400 rounded flex items-center justify-center"
-                >
+            <div className="flex space-x-4" key={`half-width-${index}`}>
+              <DropZone
+                onDrop={handleDrop}
+                className="w-1/2 h-20 bg-gray-200 border border-gray-400 rounded flex items-center justify-center"
+              >
+                <div onClick={addInput}>
                   <CiCirclePlus size={32} />
                 </div>
-                <div
-                  onClick={addInput}
-                  className="w-1/2 h-20 bg-gray-200 border border-gray-400 rounded flex items-center justify-center"
-                >
+              </DropZone>
+              <DropZone
+                onDrop={handleDrop}
+                className="w-1/2 h-20 bg-gray-200 border border-gray-400 rounded flex items-center justify-center"
+              >
+                <div onClick={addInput}>
                   <CiCirclePlus size={32} />
+                </div>
                   <button
                     className="ml-2 text-red-600"
                     onClick={() => removeBlock(blockId)}
                   >
                     <CiCircleRemove size={32} />
                   </button>
-                </div>
-              </div>
-            </>
+              </DropZone>
+            </div>
           );
         case "third-width":
           return (
-            <>
-              <div className="flex space-x-4" key={blockId}>
-                <div
-                  onClick={addInput}
-                  className="w-1/3 h-20 bg-gray-200 border border-gray-400 rounded flex items-center justify-center"
-                >
+            <div className="flex space-x-4" key={`third-width-${index}`}>
+              <DropZone
+                onDrop={handleDrop}
+                className="w-1/3 h-20 bg-gray-200 border border-gray-400 rounded flex items-center justify-center"
+              >
+                <div onClick={addInput}>
                   <CiCirclePlus size={32} />
                 </div>
-                <div
-                  onClick={addInput}
-                  className="w-1/3 h-20 bg-gray-200 border border-gray-400 rounded flex items-center justify-center"
-                >
+              </DropZone>
+              <DropZone
+                onDrop={handleDrop}
+                className="w-1/3 h-20 bg-gray-200 border border-gray-400 rounded flex items-center justify-center"
+              >
+                <div onClick={addInput}>
                   <CiCirclePlus size={32} />
                 </div>
-                <div
-                  onClick={addInput}
-                  className="w-1/3 h-20 bg-gray-200 border border-gray-400 rounded flex items-center justify-center"
-                >
+              </DropZone>
+              <DropZone
+                onDrop={handleDrop}
+                className="w-1/3 h-20 bg-gray-200 border border-gray-400 rounded flex items-center justify-center"
+              >
+                <div onClick={addInput}>
                   <CiCirclePlus size={32} />
+                </div>
                   <button
                     className="ml-2 text-red-600"
                     onClick={() => removeBlock(blockId)}
                   >
                     <CiCircleRemove size={32} />
                   </button>
-                </div>
-              </div>
-            </>
+              </DropZone>
+            </div>
           );
         case "quarter-width":
           return (
-            <>
-              <div className="flex space-x-4" key={blockId}>
-                <div
-                  onClick={addInput}
-                  className="w-1/4 h-20 bg-gray-200 border border-gray-400 rounded flex items-center justify-center"
-                >
+            <div className="flex space-x-4" key={`quarter-width-${index}`}>
+              <DropZone
+                onDrop={handleDrop}
+                className="w-1/4 h-20 bg-gray-200 border border-gray-400 rounded flex items-center justify-center"
+              >
+                <div onClick={addInput}>
                   <CiCirclePlus size={32} />
                 </div>
-                <div
-                  onClick={addInput}
-                  className="w-1/4 h-20 bg-gray-200 border border-gray-400 rounded flex items-center justify-center"
-                >
+              </DropZone>
+              <DropZone
+                onDrop={handleDrop}
+                className="w-1/4 h-20 bg-gray-200 border border-gray-400 rounded flex items-center justify-center"
+              >
+                <div onClick={addInput}>
                   <CiCirclePlus size={32} />
                 </div>
-                <div
-                  onClick={addInput}
-                  className="w-1/4 h-20 bg-gray-200 border border-gray-400 rounded flex items-center justify-center"
-                >
+              </DropZone>
+              <DropZone
+                onDrop={handleDrop}
+                className="w-1/4 h-20 bg-gray-200 border border-gray-400 rounded flex items-center justify-center"
+              >
+                <div onClick={addInput}>
                   <CiCirclePlus size={32} />
                 </div>
-                <div
-                  onClick={addInput}
-                  className="w-1/4 h-20 bg-gray-200 border border-gray-400 rounded flex items-center justify-center"
-                >
+              </DropZone>
+              <DropZone
+                onDrop={handleDrop}
+                className="w-1/4 h-20 bg-gray-200 border border-gray-400 rounded flex items-center justify-center"
+              >
+                <div onClick={addInput}>
                   <CiCirclePlus size={32} />
-                  <button
-                    className="ml-2 text-red-600"
-                    onClick={() => removeBlock(blockId)}
-                  >
-                    <CiCircleRemove size={32} />
-                  </button>
                 </div>
-              </div>
-            </>
+              <button
+                className="ml-2 text-red-600"
+                onClick={() => removeBlock(blockId)}
+              >
+                <CiCircleRemove size={32} />
+              </button>
+              </DropZone>
+            </div>
           );
         default:
           return null;
