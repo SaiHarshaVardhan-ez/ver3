@@ -29,23 +29,17 @@ const Features = () => {
         </button>
       </div>
       <div className="flex justify-center items-center text-center">
-        <div className="border border-black rounded m-2 p-2 w-72 h-96 flex flex-col justify-center items-center text-center font-bold">
+        <div className="border border-black rounded m-2 p-2 w-96 h-96 flex flex-col text-center font-bold overflow-auto">
           {opened === "inputs" ? (
             <div>
-              <h2>Inputs</h2>
-              <p>This is the inputs section.</p>
               <Inputs />
             </div>
           ) : opened === "structure" ? (
             <div>
-              <h2>Structures</h2>
-              <p>This is the structures section.</p>
               <Structures />
             </div>
           ) : opened === "body" ? (
             <div>
-              <h2>Body</h2>
-              <p>This is the body section.</p>
               <Body />
             </div>
           ) : null}
