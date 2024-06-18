@@ -34,12 +34,12 @@ const Editor = (props) => {
                 onClick={addInput}
               >
                 <CiCirclePlus size={32} />
-              <button
-                className="ml-2 text-red-600"
-                onClick={() => removeBlock(blockId)}
-              >
-                <CiCircleRemove size={32} />
-              </button>
+                <button
+                  className="ml-2 text-red-600"
+                  onClick={() => removeBlock(blockId)}
+                >
+                  <CiCircleRemove size={32} />
+                </button>
               </div>
             </>
           );
@@ -58,12 +58,12 @@ const Editor = (props) => {
                   className="w-1/2 h-20 bg-gray-200 border border-gray-400 rounded flex items-center justify-center"
                 >
                   <CiCirclePlus size={32} />
-              <button
-                className="ml-2 text-red-600"
-                onClick={() => removeBlock(blockId)}
-              >
-                <CiCircleRemove size={32} />
-              </button>
+                  <button
+                    className="ml-2 text-red-600"
+                    onClick={() => removeBlock(blockId)}
+                  >
+                    <CiCircleRemove size={32} />
+                  </button>
                 </div>
               </div>
             </>
@@ -89,12 +89,12 @@ const Editor = (props) => {
                   className="w-1/3 h-20 bg-gray-200 border border-gray-400 rounded flex items-center justify-center"
                 >
                   <CiCirclePlus size={32} />
-              <button
-                className="ml-2 text-red-600"
-                onClick={() => removeBlock(blockId)}
-              >
-                <CiCircleRemove size={32} />
-              </button>
+                  <button
+                    className="ml-2 text-red-600"
+                    onClick={() => removeBlock(blockId)}
+                  >
+                    <CiCircleRemove size={32} />
+                  </button>
                 </div>
               </div>
             </>
@@ -126,12 +126,12 @@ const Editor = (props) => {
                   className="w-1/4 h-20 bg-gray-200 border border-gray-400 rounded flex items-center justify-center"
                 >
                   <CiCirclePlus size={32} />
-              <button
-                className="ml-2 text-red-600"
-                onClick={() => removeBlock(blockId)}
-              >
-                <CiCircleRemove size={32} />
-              </button>
+                  <button
+                    className="ml-2 text-red-600"
+                    onClick={() => removeBlock(blockId)}
+                  >
+                    <CiCircleRemove size={32} />
+                  </button>
                 </div>
               </div>
             </>
