@@ -4,9 +4,9 @@ import Features from './components/Features'
 
 const Interface = () => {
   return (
-    <div>
-      <Editor/>
+    <div className='h-screen w-screen flex flex-row p-4'>
       <Features/>
+      <Editor/>
     </div>
   )
 }
