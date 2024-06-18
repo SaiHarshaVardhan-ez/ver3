@@ -3,7 +3,7 @@ import Structures from "./featureComponents/Structures";
 import Body from "./featureComponents/Body";
 import Inputs from "./featureComponents/Inputs";
 
-const Features = () => {
+const Features = (props) => {
   const [opened, setOpened] = useState("inputs");
 
   return (
@@ -36,7 +36,7 @@ const Features = () => {
             </div>
           ) : opened === "structure" ? (
             <div>
-              <Structures />
+              <Structures content={props.content} setContent={props.setContent}/>
             </div>
           ) : opened === "body" ? (
             <div>
