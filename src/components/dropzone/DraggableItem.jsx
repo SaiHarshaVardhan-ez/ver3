@@ -5,7 +5,7 @@ const ItemTypes = {
 const DraggableItem = ({ type, children }) => {
   const [, ref] = useDrag({
     type: ItemTypes.FEATURE,
-    item: { type},
+    item: {type},
   });
 
   return (
