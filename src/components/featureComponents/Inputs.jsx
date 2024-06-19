@@ -1,7 +1,7 @@
 import React from "react";
 import { FaCamera, FaFile, FaVideo } from "react-icons/fa";
 import { CiText } from "react-icons/ci";
-import { RxHeading } from "react-icons/rx";
+// import { RxHeading } from "react-icons/rx";
 import DraggableItem from "../dropzone/DraggableItem";
 const Inputs = () => {
   return (
@@ -30,12 +30,12 @@ const Inputs = () => {
           <div className="font-thin text-xs mt-1">Text</div>
         </div>
       </DraggableItem>
-      <DraggableItem type="text">
+      {/* <DraggableItem type="text">
         <div className="border rounded p-4 flex flex-col items-center justify-center cursor-pointer hover:bg-gray-100">
           <RxHeading size={48} />
           <div className="font-thin text-xs mt-1">Heading</div>
         </div>
-      </DraggableItem>
+      </DraggableItem> */}
     </div>
   );
 };
