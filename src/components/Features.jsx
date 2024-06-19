@@ -21,12 +21,12 @@ const Features = (props) => {
         >
           Structure
         </button>
-        <button
+        {/* <button
           className="w-20 bg-purple-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
           onClick={() => setOpened("body")}
         >
           Body
-        </button>
+        </button> */}
       </div>
       <div className="flex justify-center items-center text-center">
         <div className="border border-black rounded m-2 p-2 w-96 h-96 flex flex-col text-center font-bold overflow-auto">
