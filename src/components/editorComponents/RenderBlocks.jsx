@@ -3,22 +3,8 @@ import { CiCirclePlus, CiCircleRemove } from "react-icons/ci";
 import DropZone from "../dropzone/DropZone";
 
 const RenderBlocks = ({ content, setContent }) => {
-  const [data, setData] = useState(() => {
-    // Initialize data based on content length
-    const initialData = {};
-    content.forEach((blockId, index) => {
-      if (blockId === "full-width") {
-        initialData[index] = [null]; // Initialize with null for full-width
-      } else if (blockId === "half-width") {
-        initialData[index] = [null, null]; // Example initialization for half-width
-      } else if (blockId === "third-width") {
-        initialData[index] = [null, null, null]; // Example initialization for third-width
-      } else if (blockId === "quarter-width") {
-        initialData[index] = [null, null, null, null]; // Example initialization for quarter-width
-      }
-    });
-    return initialData;
-  });
+  const [data, setData] = useState({});
+  console.log(data);
 
   const removeBlock = (blockIdToRemove) => {
     const indexToRemove = content.findIndex((id) => id === blockIdToRemove);
@@ -37,7 +23,7 @@ const RenderBlocks = ({ content, setContent }) => {
   };
 
   const addInput = () => {
-    alert("Drag and drop from inputs");
+    alert("drag and drop from inputs");
   };
 
   const handleDrop = (blockIndex, positionIndex, droppedItem) => {
@@ -78,9 +64,6 @@ const RenderBlocks = ({ content, setContent }) => {
       } else if (type.type.startsWith("video/")) {
         return <video src={fileURL} controls className="h-full w-full" />;
       }
-      // else if(type.type.startsWith("text/")){
-
-      // }
     }
 
     switch (type) {
@@ -89,7 +72,7 @@ const RenderBlocks = ({ content, setContent }) => {
           <input
             type="text"
             placeholder="Text Input"
-            className="border p-1 rounded h-full w-full"
+            className="border p-1 rounded w-full"
           />
         );
       case "image":
@@ -130,7 +113,7 @@ const RenderBlocks = ({ content, setContent }) => {
           <input
             type="text"
             placeholder="Heading"
-            className="border p-1 rounded h-full w-full font-bold text-xl"
+            className="border p-1 rounded w-full font-bold text-xl"
           />
         );
       default:
@@ -145,15 +128,20 @@ const RenderBlocks = ({ content, setContent }) => {
           setData((prevData) => ({ ...prevData, [index]: [null] }));
         }
         return (
-          <div className="flex items-center" key={`full-width-${index}`}>
+          <div className="flex space-x-4" key={`half-width-${index}`}>
             <DropZone
               height={100}
               width={700}
+              key={`full-width-${index}`}
               onDrop={(item) => handleDrop(index, 0, item)}
-              className="w-full h-[32px] bg-gray-200 border border-gray-400 rounded flex items-center justify-center"
             >
-              {renderInput(data[index] && data[index][0], index, 0)}
-              <CiCirclePlus size={32} onClick={addInput} />
+              <div
+                className="h-full w-full bg-gray-200 border border-gray-400 rounded flex items-center justify-center"
+                id={blockId}
+              >
+                {renderInput(data[index] && data[index][0], index, 0)}
+                <CiCirclePlus size={32} onClick={addInput} />
+              </div>
             </DropZone>
             <button
               className="ml-2 text-red-600"
@@ -175,9 +163,11 @@ const RenderBlocks = ({ content, setContent }) => {
                 width={300}
                 key={`half-width-${index}-${pos}`}
                 onDrop={(item) => handleDrop(index, pos, item)}
-                className="w-[64px] h-[32px] bg-gray-200 border border-gray-400 rounded flex items-center justify-center"
+                className="w-1/2 h-20 bg-gray-200 border border-gray-400 rounded flex items-center justify-center"
               >
-                {renderInput(data[index] && data[index][pos], index, pos)}
+                <div>
+                  {renderInput(data[index] && data[index][pos], index, pos)}
+                </div>
                 <CiCirclePlus size={32} onClick={addInput} />
               </DropZone>
             ))}
@@ -204,9 +194,11 @@ const RenderBlocks = ({ content, setContent }) => {
                 width={200}
                 key={`third-width-${index}-${pos}`}
                 onDrop={(item) => handleDrop(index, pos, item)}
-                className="w-[48px] h-[32px] bg-gray-200 border border-gray-400 rounded flex items-center justify-center"
+                className="w-1/3 h-20 bg-gray-200 border border-gray-400 rounded flex items-center justify-center"
               >
-                {renderInput(data[index] && data[index][pos], index, pos)}
+                <div>
+                  {renderInput(data[index] && data[index][pos], index, pos)}
+                </div>
                 <CiCirclePlus size={32} onClick={addInput} />
               </DropZone>
             ))}
@@ -233,9 +225,11 @@ const RenderBlocks = ({ content, setContent }) => {
                 width={100}
                 key={`quarter-width-${index}-${pos}`}
                 onDrop={(item) => handleDrop(index, pos, item)}
-                className="w-[32px] h-[32px] bg-gray-200 border border-gray-400 rounded flex items-center justify-center"
+                className="w-1/4 h-20 bg-gray-200 border border-gray-400 rounded flex items-center justify-center"
               >
-                {renderInput(data[index] && data[index][pos], index, pos)}
+                <div>
+                  {renderInput(data[index] && data[index][pos], index, pos)}
+                </div>
                 <CiCirclePlus size={32} onClick={addInput} />
               </DropZone>
             ))}
