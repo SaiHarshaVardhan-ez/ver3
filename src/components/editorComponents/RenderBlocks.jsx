@@ -3,23 +3,14 @@ import { CiCirclePlus, CiCircleRemove } from "react-icons/ci";
 import DropZone from "../dropzone/DropZone";
 
 const RenderBlocks = ({ content, setContent }) => {
-  const [data, setData] = useState({});
+  const [data, setData] = useState([]);
   console.log(data);
+  const removeBlock = (blockIndexToRemove) => {
+    const updatedContent = content.filter((_, index) => index !== blockIndexToRemove);
+    setContent(updatedContent);
 
-  const removeBlock = (blockIdToRemove) => {
-    const indexToRemove = content.findIndex((id) => id === blockIdToRemove);
-
-    if (indexToRemove !== -1) {
-      const updatedContent = [
-        ...content.slice(0, indexToRemove),
-        ...content.slice(indexToRemove + 1),
-      ];
-      setContent(updatedContent);
-
-      const updatedData = { ...data };
-      delete updatedData[indexToRemove];
-      setData(updatedData);
-    }
+    const updatedData = data.filter((_, index) => index !== blockIndexToRemove);
+    setData(updatedData);
   };
 
   const addInput = () => {
@@ -27,7 +18,7 @@ const RenderBlocks = ({ content, setContent }) => {
   };
 
   const handleDrop = (blockIndex, positionIndex, droppedItem) => {
-    const updatedData = { ...data };
+    const updatedData = [...data];
     if (!updatedData[blockIndex]) {
       updatedData[blockIndex] = [];
     }
@@ -37,10 +28,11 @@ const RenderBlocks = ({ content, setContent }) => {
       updatedData[blockIndex][positionIndex] = droppedItem.type;
     }
     setData(updatedData);
+    setContent([...content, droppedItem]);
   };
 
   const handleFileChange = (blockIndex, positionIndex, file) => {
-    const updatedData = { ...data };
+    const updatedData = [...data];
     if (!updatedData[blockIndex]) {
       updatedData[blockIndex] = [];
     }
@@ -125,10 +117,10 @@ const RenderBlocks = ({ content, setContent }) => {
     switch (blockId) {
       case "full-width":
         if (!data[index]) {
-          setData((prevData) => ({ ...prevData, [index]: [null] }));
+          setData((prevData) => [...prevData, [null]]);
         }
         return (
-          <div className="flex space-x-4" key={`half-width-${index}`}>
+          <div className="flex space-x-4" key={`full-width-${index}`}>
             <DropZone
               height={100}
               width={700}
@@ -145,7 +137,7 @@ const RenderBlocks = ({ content, setContent }) => {
             </DropZone>
             <button
               className="ml-2 text-red-600"
-              onClick={() => removeBlock(blockId)}
+              onClick={() => removeBlock(index)}
             >
               <CiCircleRemove size={32} />
             </button>
@@ -153,7 +145,7 @@ const RenderBlocks = ({ content, setContent }) => {
         );
       case "half-width":
         if (!data[index]) {
-          setData((prevData) => ({ ...prevData, [index]: [null, null] }));
+          setData((prevData) => [...prevData, [null, null]]);
         }
         return (
           <div className="flex space-x-4" key={`half-width-${index}`}>
@@ -173,7 +165,7 @@ const RenderBlocks = ({ content, setContent }) => {
             ))}
             <button
               className="ml-2 text-red-600"
-              onClick={() => removeBlock(blockId)}
+              onClick={() => removeBlock(index)}
             >
               <CiCircleRemove size={32} />
             </button>
@@ -181,10 +173,7 @@ const RenderBlocks = ({ content, setContent }) => {
         );
       case "third-width":
         if (!data[index]) {
-          setData((prevData) => ({
-            ...prevData,
-            [index]: [null, null, null],
-          }));
+          setData((prevData) => [...prevData, [null, null, null]]);
         }
         return (
           <div className="flex space-x-4" key={`third-width-${index}`}>
@@ -204,7 +193,7 @@ const RenderBlocks = ({ content, setContent }) => {
             ))}
             <button
               className="ml-2 text-red-600"
-              onClick={() => removeBlock(blockId)}
+              onClick={() => removeBlock(index)}
             >
               <CiCircleRemove size={32} />
             </button>
@@ -212,10 +201,7 @@ const RenderBlocks = ({ content, setContent }) => {
         );
       case "quarter-width":
         if (!data[index]) {
-          setData((prevData) => ({
-            ...prevData,
-            [index]: [null, null, null, null],
-          }));
+          setData((prevData) => [...prevData, [null, null, null, null]]);
         }
         return (
           <div className="flex space-x-4" key={`quarter-width-${index}`}>
@@ -235,7 +221,7 @@ const RenderBlocks = ({ content, setContent }) => {
             ))}
             <button
               className="ml-2 text-red-600"
-              onClick={() => removeBlock(blockId)}
+              onClick={() => removeBlock(index)}
             >
               <CiCircleRemove size={32} />
             </button>
