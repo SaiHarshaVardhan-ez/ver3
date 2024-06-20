@@ -5,8 +5,11 @@ import DropZone from "../dropzone/DropZone";
 const RenderBlocks = ({ content, setContent }) => {
   const [data, setData] = useState([]);
   console.log(data);
+
   const removeBlock = (blockIndexToRemove) => {
-    const updatedContent = content.filter((_, index) => index !== blockIndexToRemove);
+    const updatedContent = content.filter(
+      (_, index) => index !== blockIndexToRemove
+    );
     setContent(updatedContent);
 
     const updatedData = data.filter((_, index) => index !== blockIndexToRemove);
@@ -40,7 +43,15 @@ const RenderBlocks = ({ content, setContent }) => {
     setData(updatedData);
   };
 
-  const renderInput = (type, blockIndex, positionIndex) => {
+  const RenderInput = ({ type, blockIndex, positionIndex }) => {
+    const [textInput, setTextInput] = useState("");
+
+    const handleTextSubmit = (event) => {
+      event.preventDefault();
+      handleFileChange(blockIndex, positionIndex, textInput);
+      setTextInput("");
+    };
+
     if (type instanceof File) {
       const fileURL = URL.createObjectURL(type);
       if (type.type.startsWith("image/")) {
@@ -54,18 +65,27 @@ const RenderBlocks = ({ content, setContent }) => {
           />
         );
       } else if (type.type.startsWith("video/")) {
+        console.log("ji");
         return <video src={fileURL} controls className="h-full w-full" />;
       }
+      // else if(type){
+      //   console.log(type);
+      //   return <h5>{type}</h5>;
+      // }
     }
 
     switch (type) {
       case "text":
         return (
-          <input
-            type="text"
-            placeholder="Text Input"
-            className="border p-1 rounded w-full"
-          />
+          <form onSubmit={handleTextSubmit}>
+            <textarea
+              id="txtArea"
+              className="p-1 h-full w-full"
+              value={textInput}
+              onChange={(e) => setTextInput(e.target.value)}
+            />
+            <button type="submit">Submit</button>
+          </form>
         );
       case "image":
         return (
@@ -109,6 +129,8 @@ const RenderBlocks = ({ content, setContent }) => {
           />
         );
       default:
+        console.log(type);
+        return <h5>{type}</h5>;
         return null;
     }
   };
@@ -131,7 +153,13 @@ const RenderBlocks = ({ content, setContent }) => {
                 className="h-full w-full bg-gray-200 border border-gray-400 rounded flex items-center justify-center"
                 id={blockId}
               >
-                {renderInput(data[index] && data[index][0], index, 0)}
+                {data[index] && data[index][0] !== undefined && (
+                  <RenderInput
+                    type={data[index][0]}
+                    blockIndex={index}
+                    positionIndex={0}
+                  />
+                )}
                 <CiCirclePlus size={32} onClick={addInput} />
               </div>
             </DropZone>
@@ -158,7 +186,13 @@ const RenderBlocks = ({ content, setContent }) => {
                 className="w-1/2 h-20 bg-gray-200 border border-gray-400 rounded flex items-center justify-center"
               >
                 <div>
-                  {renderInput(data[index] && data[index][pos], index, pos)}
+                  {data[index] && data[index][pos] !== undefined && (
+                    <RenderInput
+                      type={data[index][pos]}
+                      blockIndex={index}
+                      positionIndex={pos}
+                    />
+                  )}
                 </div>
                 <CiCirclePlus size={32} onClick={addInput} />
               </DropZone>
@@ -186,7 +220,13 @@ const RenderBlocks = ({ content, setContent }) => {
                 className="w-1/3 h-20 bg-gray-200 border border-gray-400 rounded flex items-center justify-center"
               >
                 <div>
-                  {renderInput(data[index] && data[index][pos], index, pos)}
+                  {data[index] && data[index][pos] !== undefined && (
+                    <RenderInput
+                      type={data[index][pos]}
+                      blockIndex={index}
+                      positionIndex={pos}
+                    />
+                  )}
                 </div>
                 <CiCirclePlus size={32} onClick={addInput} />
               </DropZone>
@@ -214,7 +254,13 @@ const RenderBlocks = ({ content, setContent }) => {
                 className="w-1/4 h-20 bg-gray-200 border border-gray-400 rounded flex items-center justify-center"
               >
                 <div>
-                  {renderInput(data[index] && data[index][pos], index, pos)}
+                  {data[index] && data[index][pos] !== undefined && (
+                    <RenderInput
+                      type={data[index][pos]}
+                      blockIndex={index}
+                      positionIndex={pos}
+                    />
+                  )}
                 </div>
                 <CiCirclePlus size={32} onClick={addInput} />
               </DropZone>
