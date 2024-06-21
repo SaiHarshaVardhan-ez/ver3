@@ -131,7 +131,6 @@ const RenderBlocks = ({ content, setContent }) => {
       default:
         console.log(type);
         return <h5>{type}</h5>;
-        return null;
     }
   };
 
