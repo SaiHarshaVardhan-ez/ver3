@@ -2,11 +2,10 @@
 import React, { useState } from 'react';
 import { CiCirclePlus, CiCircleRemove } from 'react-icons/ci';
 import DropZone from '../dropzone/DropZone';
-import RenderInput from './RenderInput'; // Assuming it's in the same folder
+import RenderInput from './RenderInput';
 
 const RenderBlocks = ({ content, setContent }) => {
   const [data, setData] = useState([]);
-  console.log(data);
 
   const removeBlock = (blockIndexToRemove) => {
     const updatedContent = content.filter(
@@ -82,7 +81,111 @@ const RenderBlocks = ({ content, setContent }) => {
             </button>
           </div>
         );
-      // Other cases (half-width, third-width, quarter-width) can be similarly refactored
+      case 'half-width':
+        if (!data[index]) {
+          setData((prevData) => [...prevData, [null, null]]);
+        }
+        return (
+          <div className="flex space-x-4" key={`half-width-${index}`}>
+            {[0, 1].map((pos) => (
+              <DropZone
+                height={100}
+                width={300}
+                key={`half-width-${index}-${pos}`}
+                onDrop={(item) => handleDrop(index, pos, item)}
+                className="w-1/2 h-20 bg-gray-200 border border-gray-400 rounded flex items-center justify-center"
+              >
+                <div>
+                  {data[index] && data[index][pos] !== undefined && (
+                    <RenderInput
+                      type={data[index][pos]}
+                      blockIndex={index}
+                      positionIndex={pos}
+                      handleFileChange={handleFileChange}
+                    />
+                  )}
+                </div>
+                <CiCirclePlus size={32} onClick={addInput} />
+              </DropZone>
+            ))}
+            <button
+              className="ml-2 text-red-600"
+              onClick={() => removeBlock(index)}
+            >
+              <CiCircleRemove size={32} />
+            </button>
+          </div>
+        );
+      case 'third-width':
+        if (!data[index]) {
+          setData((prevData) => [...prevData, [null, null, null]]);
+        }
+        return (
+          <div className="flex space-x-4" key={`third-width-${index}`}>
+            {[0, 1, 2].map((pos) => (
+              <DropZone
+                height={100}
+                width={200}
+                key={`third-width-${index}-${pos}`}
+                onDrop={(item) => handleDrop(index, pos, item)}
+                className="w-1/3 h-20 bg-gray-200 border border-gray-400 rounded flex items-center justify-center"
+              >
+                <div>
+                  {data[index] && data[index][pos] !== undefined && (
+                    <RenderInput
+                      type={data[index][pos]}
+                      blockIndex={index}
+                      positionIndex={pos}
+                      handleFileChange={handleFileChange}
+                    />
+                  )}
+                </div>
+                <CiCirclePlus size={32} onClick={addInput} />
+              </DropZone>
+            ))}
+            <button
+              className="ml-2 text-red-600"
+              onClick={() => removeBlock(index)}
+            >
+              <CiCircleRemove size={32} />
+            </button>
+          </div>
+        );
+      case 'quarter-width':
+        if (!data[index]) {
+          setData((prevData) => [...prevData, [null, null, null, null]]);
+        }
+        return (
+          <div className="flex space-x-4" key={`quarter-width-${index}`}>
+            {[0, 1, 2, 3].map((pos) => (
+              <DropZone
+                height={100}
+                width={100}
+                key={`quarter-width-${index}-${pos}`}
+                onDrop={(item) => handleDrop(index, pos, item)}
+                className="w-1/4 h-20 bg-gray-200 border border-gray-400 rounded flex items-center justify-center"
+              >
+                <div>
+                  {data[index] && data[index][pos] !== undefined && (
+                    <RenderInput
+                      type={data[index][pos]}
+                      blockIndex={index}
+                      positionIndex={pos}
+                      handleFileChange={handleFileChange}
+                    />
+                  )}
+                </div>
+                <CiCirclePlus size={32} onClick={addInput} />
+              </DropZone>
+            ))}
+            <button
+              className="ml-2 text-red-600"
+              onClick={() => removeBlock(index)}
+            >
+              <CiCircleRemove size={32} />
+            </button>
+          </div>
+        );
       default:
         return null;
     }

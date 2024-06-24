@@ -11,21 +11,37 @@ const Editor = ({ content = [], setContent }) => {
   const navigate = useNavigate();
 
   const handlePreview = () => {
+    const element = previewRef.current;
+
+    // Remember current scroll position
+    const scrollY = window.scrollY;
+
+    // Set temporary styles to ensure all content is visible
+    element.style.height = `${element.scrollHeight}px`;
+    element.style.overflow = "visible";
+
+    // Capture the image
     htmlToImage
-      .toPng(previewRef.current)
+      .toPng(element)
       .then(function (dataUrl) {
         setShowPreview(true);
         setPreviewImage(dataUrl);
       })
       .catch(function (error) {
         console.error("Preview generation failed: ", error);
+      })
+      .finally(() => {
+        // Reset styles after capture
+        element.style.height = "auto";
+        element.style.overflow = "auto";
+
+        // Restore scroll position
+        window.scrollTo(0, scrollY);
       });
   };
 
   const handleSave = () => {
-    // Implement save functionality here
-    console.log("Saving content...");
-    // Example: You might want to update state or perform an API call
+    console.log(previewRef.current);
   };
 
   const closePreview = () => {
@@ -34,7 +50,11 @@ const Editor = ({ content = [], setContent }) => {
   };
 
   return (
-    <div className={`p-4 flex flex-col w-full h-full items-center justify-center border border-black ${showPreview ? 'blur-bg' : ''}`}>
+    <div
+      className={`p-4 flex flex-col w-full h-full items-center justify-center border border-black ${
+        showPreview ? "blur-bg" : ""
+      }`}
+    >
       <h2>
         <b>Editor Area</b>
       </h2>
