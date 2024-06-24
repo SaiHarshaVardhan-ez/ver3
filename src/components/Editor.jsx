@@ -1,43 +1,62 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import RenderBlocks from "./editorComponents/RenderBlocks";
 import { useNavigate } from "react-router-dom";
-import * as htmlToImage from "html-to-image";
-import PreviewPopup from "./PreviewPopup";
 
 const Editor = ({ content = [], setContent }) => {
   const [showPreview, setShowPreview] = useState(false);
-  const [previewImage, setPreviewImage] = useState(null);
-  const previewRef = useRef();
+  const [previewContent, setPreviewContent] = useState("");
+  const [previewWidth, setPreviewWidth] = useState("100%"); // Initial width
+  const [previewHeight, setPreviewHeight] = useState("100%"); // Initial height
   const navigate = useNavigate();
 
+  const previewRef = useRef();
+
+  useEffect(() => {
+    const resizeObserver = new ResizeObserver(entries => {
+      for (let entry of entries) {
+        setPreviewWidth(`${entry.contentRect.width}px`);
+        setPreviewHeight(`${entry.contentRect.height}px`);
+      }
+    });
+
+    resizeObserver.observe(previewRef.current);
+
+    return () => {
+      resizeObserver.disconnect();
+    };
+  }, []);
+
   const handlePreview = () => {
-    const element = previewRef.current;
+    const contentHtml = `
+      <!DOCTYPE html>
+      <html lang="en">
+      <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Preview Content</title>
+        <style>
+          body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+          }
+          .preview-content {
+            background-color: #ffffff;
+            padding: 20px;
+            border: 1px solid #cccccc;
+            border-radius: 8px;
+          }
+        </style>
+      </head>
+      <body>
+        <div class="preview-content" style="width: ${previewWidth}; height: ${previewHeight}">
+          ${previewRef.current.innerHTML}
+        </div>
+      </body>
+      </html>
+    `;
 
-    // Remember current scroll position
-    const scrollY = window.scrollY;
-
-    // Set temporary styles to ensure all content is visible
-    element.style.height = `${element.scrollHeight}px`;
-    element.style.overflow = "visible";
-
-    // Capture the image
-    htmlToImage
-      .toPng(element)
-      .then(function (dataUrl) {
-        setShowPreview(true);
-        setPreviewImage(dataUrl);
-      })
-      .catch(function (error) {
-        console.error("Preview generation failed: ", error);
-      })
-      .finally(() => {
-        // Reset styles after capture
-        element.style.height = "auto";
-        element.style.overflow = "auto";
-
-        // Restore scroll position
-        window.scrollTo(0, scrollY);
-      });
+    setPreviewContent(contentHtml);
+    setShowPreview(true);
   };
 
   const handleSave = () => {
@@ -46,7 +65,7 @@ const Editor = ({ content = [], setContent }) => {
 
   const closePreview = () => {
     setShowPreview(false);
-    setPreviewImage(null);
+    setPreviewContent("");
   };
 
   return (
@@ -87,13 +106,19 @@ const Editor = ({ content = [], setContent }) => {
       {showPreview && (
         <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-opacity-50 bg-gray-500 backdrop-filter backdrop-blur-lg">
           <div className="relative w-full max-w-screen-lg h-full">
-            <PreviewPopup imageSrc={previewImage} onClose={closePreview} />
-            <button
-              className="absolute top-2 right-2 bg-white text-gray-800 rounded-full p-2 shadow-md hover:bg-gray-200"
+            <div
+              className="absolute top-2 right-2 bg-white text-gray-800 rounded-full p-2 shadow-md hover:bg-gray-200 cursor-pointer"
               onClick={closePreview}
             >
               Close
-            </button>
+            </div>
+            <div className="w-full h-full flex items-center justify-center">
+              <div
+                className="bg-white p-4 shadow-lg border border-gray-200 overflow-auto rounded"
+                style={{ maxHeight: "90%", maxWidth: "90%" }}
+                dangerouslySetInnerHTML={{ __html: previewContent }}
+              />
+            </div>
           </div>
         </div>
       )}

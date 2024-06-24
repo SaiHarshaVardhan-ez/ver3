@@ -1,8 +1,8 @@
 // RenderBlocks.js
-import React, { useState } from 'react';
-import { CiCirclePlus, CiCircleRemove } from 'react-icons/ci';
-import DropZone from '../dropzone/DropZone';
-import RenderInput from './RenderInput';
+import React, { useState } from "react";
+import {CiCircleRemove } from "react-icons/ci";
+import DropZone from "../dropzone/DropZone";
+import RenderInput from "./RenderInput";
 
 const RenderBlocks = ({ content, setContent }) => {
   const [data, setData] = useState([]);
@@ -17,16 +17,13 @@ const RenderBlocks = ({ content, setContent }) => {
     setData(updatedData);
   };
 
-  const addInput = () => {
-    alert('drag and drop from inputs');
-  };
 
   const handleDrop = (blockIndex, positionIndex, droppedItem) => {
     const updatedData = [...data];
     if (!updatedData[blockIndex]) {
       updatedData[blockIndex] = [];
     }
-    if (droppedItem.type.startsWith('file:')) {
+    if (droppedItem.type.startsWith("file:")) {
       updatedData[blockIndex][positionIndex] = droppedItem.file;
     } else {
       updatedData[blockIndex][positionIndex] = droppedItem.type;
@@ -46,7 +43,7 @@ const RenderBlocks = ({ content, setContent }) => {
 
   return content.map((blockId, index) => {
     switch (blockId) {
-      case 'full-width':
+      case "full-width":
         if (!data[index]) {
           setData((prevData) => [...prevData, [null]]);
         }
@@ -70,7 +67,6 @@ const RenderBlocks = ({ content, setContent }) => {
                     handleFileChange={handleFileChange}
                   />
                 )}
-                <CiCirclePlus size={32} onClick={addInput} />
               </div>
             </DropZone>
             <button
@@ -81,7 +77,7 @@ const RenderBlocks = ({ content, setContent }) => {
             </button>
           </div>
         );
-      case 'half-width':
+      case "half-width":
         if (!data[index]) {
           setData((prevData) => [...prevData, [null, null]]);
         }
@@ -105,7 +101,6 @@ const RenderBlocks = ({ content, setContent }) => {
                     />
                   )}
                 </div>
-                <CiCirclePlus size={32} onClick={addInput} />
               </DropZone>
             ))}
             <button
@@ -116,7 +111,7 @@ const RenderBlocks = ({ content, setContent }) => {
             </button>
           </div>
         );
-      case 'third-width':
+      case "third-width":
         if (!data[index]) {
           setData((prevData) => [...prevData, [null, null, null]]);
         }
@@ -140,7 +135,6 @@ const RenderBlocks = ({ content, setContent }) => {
                     />
                   )}
                 </div>
-                <CiCirclePlus size={32} onClick={addInput} />
               </DropZone>
             ))}
             <button
@@ -151,7 +145,7 @@ const RenderBlocks = ({ content, setContent }) => {
             </button>
           </div>
         );
-      case 'quarter-width':
+      case "quarter-width":
         if (!data[index]) {
           setData((prevData) => [...prevData, [null, null, null, null]]);
         }
@@ -175,7 +169,6 @@ const RenderBlocks = ({ content, setContent }) => {
                     />
                   )}
                 </div>
-                <CiCirclePlus size={32} onClick={addInput} />
               </DropZone>
             ))}
             <button
