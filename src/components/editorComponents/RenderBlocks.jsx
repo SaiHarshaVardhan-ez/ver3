@@ -1,10 +1,11 @@
+// RenderBlocks.js
 import React, { useState } from "react";
-import { CiCirclePlus, CiCircleRemove } from "react-icons/ci";
+import {CiCircleRemove } from "react-icons/ci";
 import DropZone from "../dropzone/DropZone";
+import RenderInput from "./RenderInput";
 
 const RenderBlocks = ({ content, setContent }) => {
   const [data, setData] = useState([]);
-  console.log(data);
 
   const removeBlock = (blockIndexToRemove) => {
     const updatedContent = content.filter(
@@ -16,9 +17,6 @@ const RenderBlocks = ({ content, setContent }) => {
     setData(updatedData);
   };
 
-  const addInput = () => {
-    alert("drag and drop from inputs");
-  };
 
   const handleDrop = (blockIndex, positionIndex, droppedItem) => {
     const updatedData = [...data];
@@ -41,97 +39,6 @@ const RenderBlocks = ({ content, setContent }) => {
     }
     updatedData[blockIndex][positionIndex] = file;
     setData(updatedData);
-  };
-
-  const RenderInput = ({ type, blockIndex, positionIndex }) => {
-    const [textInput, setTextInput] = useState("");
-
-    const handleTextSubmit = (event) => {
-      event.preventDefault();
-      handleFileChange(blockIndex, positionIndex, textInput);
-      setTextInput("");
-    };
-
-    if (type instanceof File) {
-      const fileURL = URL.createObjectURL(type);
-      if (type.type.startsWith("image/")) {
-        return <img src={fileURL} alt="preview" className="h-full w-full" />;
-      } else if (type.type === "application/pdf") {
-        return (
-          <embed
-            src={fileURL}
-            type="application/pdf"
-            className="h-full w-full"
-          />
-        );
-      } else if (type.type.startsWith("video/")) {
-        console.log("ji");
-        return <video src={fileURL} controls className="h-full w-full" />;
-      }
-      // else if(type){
-      //   console.log(type);
-      //   return <h5>{type}</h5>;
-      // }
-    }
-
-    switch (type) {
-      case "text":
-        return (
-          <form onSubmit={handleTextSubmit}>
-            <textarea
-              id="txtArea"
-              className="p-1 h-full w-full"
-              value={textInput}
-              onChange={(e) => setTextInput(e.target.value)}
-            />
-            <button type="submit">Submit</button>
-          </form>
-        );
-      case "image":
-        return (
-          <input
-            type="file"
-            accept="image/*"
-            className="border p-1 rounded w-full"
-            onChange={(e) =>
-              handleFileChange(blockIndex, positionIndex, e.target.files[0])
-            }
-          />
-        );
-      case "pdf":
-        return (
-          <input
-            type="file"
-            accept="application/pdf"
-            className="border p-1 rounded w-full"
-            onChange={(e) =>
-              handleFileChange(blockIndex, positionIndex, e.target.files[0])
-            }
-          />
-        );
-      case "video":
-        return (
-          <input
-            type="file"
-            accept="video/*"
-            className="border p-1 rounded w-full"
-            onChange={(e) =>
-              handleFileChange(blockIndex, positionIndex, e.target.files[0])
-            }
-          />
-        );
-      case "heading":
-        return (
-          <input
-            type="text"
-            placeholder="Heading"
-            className="border p-1 rounded w-full font-bold text-xl"
-          />
-        );
-      default:
-        console.log(type);
-        return <h5>{type}</h5>;
-    }
   };
 
   return content.map((blockId, index) => {
@@ -157,9 +64,9 @@ const RenderBlocks = ({ content, setContent }) => {
                     type={data[index][0]}
                     blockIndex={index}
                     positionIndex={0}
+                    handleFileChange={handleFileChange}
                   />
                 )}
-                <CiCirclePlus size={32} onClick={addInput} />
               </div>
             </DropZone>
             <button
@@ -190,10 +97,10 @@ const RenderBlocks = ({ content, setContent }) => {
                       type={data[index][pos]}
                       blockIndex={index}
                       positionIndex={pos}
+                      handleFileChange={handleFileChange}
                     />
                   )}
                 </div>
-                <CiCirclePlus size={32} onClick={addInput} />
               </DropZone>
             ))}
             <button
@@ -224,10 +131,10 @@ const RenderBlocks = ({ content, setContent }) => {
                       type={data[index][pos]}
                       blockIndex={index}
                       positionIndex={pos}
+                      handleFileChange={handleFileChange}
                     />
                   )}
                 </div>
-                <CiCirclePlus size={32} onClick={addInput} />
               </DropZone>
             ))}
             <button
@@ -258,10 +165,10 @@ const RenderBlocks = ({ content, setContent }) => {
                       type={data[index][pos]}
                       blockIndex={index}
                       positionIndex={pos}
+                      handleFileChange={handleFileChange}
                     />
                   )}
                 </div>
-                <CiCirclePlus size={32} onClick={addInput} />
               </DropZone>
             ))}
             <button
